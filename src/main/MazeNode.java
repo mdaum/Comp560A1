@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class MazeNode {
 	int row,column;
-	int costOfBestPathHere=Integer.MAX_VALUE;
+	int costOfBestPathHere=Integer.MAX_VALUE;//Tyler use for A*?
+	int heuristicvalue;//will be assigned on the fly in search implementation...
 	boolean visited=false;
 	boolean infrontier=false;
 	boolean goal=false;

@@ -8,7 +8,9 @@ public abstract class Searcher {
 	MazeNode[][] nodes;
 	int startX;
 	int startY;
-	public Searcher(ArrayList<char[]> CharMaze, MazeNode[][] Nodes,int startX, int startY){
+	int goalX;
+	int goalY;
+	public Searcher(ArrayList<char[]> CharMaze, MazeNode[][] Nodes,int startX, int startY,int goalX,int goalY){
 		solution= deepclone(CharMaze);
 		nodes=Nodes;
 		this.startX=startX;

@@ -7,20 +7,26 @@ import java.util.Scanner;
 public class Part1 {
 	static int startX;
 	static int startY;
+	static int goalX;
+	static int goalY;
 	public static void main(String args[]){
-		ArrayList<char[]> smallCharMaze = createCharMaze("bigMaze.txt");
+		ArrayList<char[]> smallCharMaze = createCharMaze("smallMaze.txt");
 		printCharMaze(smallCharMaze);
 		MazeNode[][] nodes = new MazeNode[smallCharMaze.size()][smallCharMaze.get(0).length];
 		createMazeGraph(smallCharMaze,nodes);
-		Part1BFS goo = new Part1BFS(smallCharMaze, nodes, startX, startY);
+		/*Part1BFS goo = new Part1BFS(smallCharMaze, nodes, startX, startY,goalX,goalY);
 		goo.search();
 		System.out.println();
 		printCharMaze(goo.solution);
 		reset(nodes);
 		System.out.println();
-		Part1DFS shoe =new Part1DFS(smallCharMaze,nodes,startX,startY);
+		Part1DFS shoe =new Part1DFS(smallCharMaze,nodes,startX,startY,goalX,goalY);
 		shoe.search();
-		printCharMaze(shoe.solution);
+		printCharMaze(shoe.solution);*/
+		System.out.println();
+		Part1GreedyBestFirst mrKrabs=new Part1GreedyBestFirst(smallCharMaze, nodes, startX, startY, goalX, goalY);
+		mrKrabs.search();
+		printCharMaze(mrKrabs.solution);
 		
 	}
 	public static ArrayList<char[]> createCharMaze(String filePath){
@@ -52,6 +58,10 @@ public class Part1 {
 					if(charMaze.get(i)[j]=='S'){
 						startX=i;
 						startY=j;
+					}
+					if(charMaze.get(i)[j]=='G'){
+						goalX=i;
+						goalY=j;
 					}
 					nodes[i][j] = new MazeNode(i,j,charMaze.get(i)[j]=='G');
 					if(i>0 && charMaze.get(i-1)[j]!='%'){//we can check for edges with tiles above us

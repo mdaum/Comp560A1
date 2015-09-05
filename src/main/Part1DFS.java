@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Part1DFS extends Searcher{
 	
-	public Part1DFS(ArrayList<char[]> CharMaze, MazeNode[][] Nodes,int startX, int startY) {
-		super(CharMaze, Nodes, startX, startY);
+	public Part1DFS(ArrayList<char[]> CharMaze, MazeNode[][] Nodes,int startX, int startY,int goalX,int goalY) {
+		super(CharMaze, Nodes, startX, startY,goalX,goalY);
 		// TODO Auto-generated constructor stub
 	}
 
