@@ -12,6 +12,10 @@ public class Part1 {
 		printCharMaze(smallCharMaze);
 		MazeNode[][] nodes = new MazeNode[smallCharMaze.size()][smallCharMaze.get(0).length];
 		createMazeGraph(smallCharMaze,nodes);
+		Part1BFS goo = new Part1BFS(smallCharMaze, nodes, startX, startY);
+		goo.search();
+		System.out.println();
+		printCharMaze(goo.solution);
 		
 	}
 	public static ArrayList<char[]> createCharMaze(String filePath){
@@ -61,6 +65,7 @@ public class Part1 {
 		for (MazeNode[] mazeNodes : Graph) {
 			for (MazeNode mazeNode : mazeNodes) {
 				mazeNode.visited=false;
+				mazeNode.infrontier=false;
 			}
 		}
 	};

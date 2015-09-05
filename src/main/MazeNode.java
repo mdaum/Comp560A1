@@ -6,6 +6,7 @@ public class MazeNode {
 	int row,column;
 	int costOfBestPathHere=Integer.MAX_VALUE;
 	boolean visited=false;
+	boolean infrontier=false;
 	boolean goal=false;
 	MazeNode north,south,east,west,predecessor;
 	public MazeNode(int Row, int Column, boolean Goal){
