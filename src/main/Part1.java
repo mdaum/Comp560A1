@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Part1 {
+	static int startX;
+	static int startY;
 	public static void main(String args[]){
 		ArrayList<char[]> smallCharMaze = createCharMaze("smallMaze.txt");
 		printCharMaze(smallCharMaze);
 		MazeNode[][] nodes = new MazeNode[smallCharMaze.size()][smallCharMaze.get(0).length];
 		createMazeGraph(smallCharMaze,nodes);
+		
 	}
 	public static ArrayList<char[]> createCharMaze(String filePath){
 		ArrayList<char[]> charMazeRows = new ArrayList<char[]>();
@@ -37,6 +40,10 @@ public class Part1 {
 		for(int i=0;i<charMaze.size();i++){
 			for(int j=0;j<charMaze.get(i).length;j++){
 				if(charMaze.get(i)[j]!='%'){
+					if(charMaze.get(i)[j]=='S'){
+						startX=i;
+						startY=j;
+					}
 					nodes[i][j] = new MazeNode(i,j,charMaze.get(i)[j]=='G');
 					if(i>0 && charMaze.get(i-1)[j]!='%'){//we can check for edges with tiles above us
 						nodes[i][j].north=nodes[i-1][j];
@@ -50,5 +57,12 @@ public class Part1 {
 			}
 		}
 	}
+	public static void reset(MazeNode[][] Graph){
+		for (MazeNode[] mazeNodes : Graph) {
+			for (MazeNode mazeNode : mazeNodes) {
+				mazeNode.visited=false;
+			}
+		}
+	};
 
 }
