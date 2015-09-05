@@ -8,7 +8,7 @@ public class Part1 {
 	static int startX;
 	static int startY;
 	public static void main(String args[]){
-		ArrayList<char[]> smallCharMaze = createCharMaze("smallMaze.txt");
+		ArrayList<char[]> smallCharMaze = createCharMaze("bigMaze.txt");
 		printCharMaze(smallCharMaze);
 		MazeNode[][] nodes = new MazeNode[smallCharMaze.size()][smallCharMaze.get(0).length];
 		createMazeGraph(smallCharMaze,nodes);
@@ -16,6 +16,11 @@ public class Part1 {
 		goo.search();
 		System.out.println();
 		printCharMaze(goo.solution);
+		reset(nodes);
+		System.out.println();
+		Part1DFS shoe =new Part1DFS(smallCharMaze,nodes,startX,startY);
+		shoe.search();
+		printCharMaze(shoe.solution);
 		
 	}
 	public static ArrayList<char[]> createCharMaze(String filePath){
@@ -64,8 +69,10 @@ public class Part1 {
 	public static void reset(MazeNode[][] Graph){
 		for (MazeNode[] mazeNodes : Graph) {
 			for (MazeNode mazeNode : mazeNodes) {
+				if(mazeNode!=null){
 				mazeNode.visited=false;
 				mazeNode.infrontier=false;
+				}
 			}
 		}
 	};
