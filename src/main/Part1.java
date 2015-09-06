@@ -29,6 +29,7 @@ public class Part1 {
 		printCharMaze(mrKrabs.solution);
 		
 	}
+	//this returns the ArrayList of char[]s that make up a representation of the .txt files
 	public static ArrayList<char[]> createCharMaze(String filePath){
 		ArrayList<char[]> charMazeRows = new ArrayList<char[]>();
 		try{
@@ -43,6 +44,7 @@ public class Part1 {
 		}
 		return charMazeRows;
 	}
+	//this just prints out an ArrayList of char[]s
 	public static void printCharMaze(ArrayList<char[]> charMaze){
 		for(char[] row : charMaze){
 			for(char c : row){
@@ -51,6 +53,8 @@ public class Part1 {
 			System.out.println();
 		}
 	}
+	//this creates an actual graph structure out of an empty double array of nodes 
+	//and the parsed form of a .txt in the form of that ArrayList of char[]s
 	public static void createMazeGraph(ArrayList<char[]> charMaze, MazeNode[][] nodes){
 		for(int i=0;i<charMaze.size();i++){
 			for(int j=0;j<charMaze.get(i).length;j++){
@@ -76,6 +80,11 @@ public class Part1 {
 			}
 		}
 	}
+	//the way we're doing things doesn't use special data structures to store the explored set
+	//or even the frontier. Instead we just flag the nodes themselves with booleans.
+	//since we're not recreating the graph for each search performed, we do need to
+	//go through the graph and "reset" it, unflagging every node as not being part
+	//of the frontier or explored set
 	public static void reset(MazeNode[][] Graph){
 		for (MazeNode[] mazeNodes : Graph) {
 			for (MazeNode mazeNode : mazeNodes) {

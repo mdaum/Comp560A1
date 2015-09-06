@@ -17,6 +17,8 @@ public abstract class Searcher {
 		this.startY=startY;
 		frontier.add(nodes[startX][startY]);
 		frontier.get(0).infrontier=true;
+		this.goalX=goalX;
+		this.goalY=goalY;
 	}
 	public abstract ArrayList<char[]> search();
 	public ArrayList<char[]> deepclone(ArrayList<char[]> original){
