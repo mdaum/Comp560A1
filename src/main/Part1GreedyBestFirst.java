@@ -12,6 +12,7 @@ public class Part1GreedyBestFirst extends Searcher{
 	public ArrayList<char[]> search() {
 		boolean done=false;
 		while(!done){
+			Part1.printCharMaze(solution); // this is just for debugging purposes
 			if(frontier.isEmpty())return null;
 			MazeNode current=dequeue();
 			for (MazeNode n : current.getAdjacentNodes()) {
@@ -31,24 +32,27 @@ public class Part1GreedyBestFirst extends Searcher{
 					n.infrontier=true;
 				}
 			}
-			
 		}
 		return null;
 	}
 	public void enqueue(MazeNode N){
+		solution.get(N.row)[N.column]='F';// this is just for debugging purposes. F is for FRONTIER
 		dodaheuristic(N);
 		if(frontier.size()==0){
 			frontier.add(N);
 			return;
 		}
 		frontier.add(binsearch(N.heuristicvalue,frontier),N);
-		//solution.get(N.row)[N.column]='F';
 	}
 	public MazeNode dequeue(){
 		frontier.get(0).infrontier=false;
 		frontier.get(0).visited=true;
+<<<<<<< HEAD
 		numNodesExpanded++; //ADDED BY TYLER
 		//solution.get(frontier.get(0).row)[frontier.get(0).column]='C';
+=======
+		solution.get(frontier.get(0).row)[frontier.get(0).column]='C';// this is just for debugging purposes. C is for EXPLORED/VISITED/CHECKED/WHATEVER
+>>>>>>> branch 'master' of https://github.com/FredLandis/Comp560A1.git
 		return frontier.remove(0);
 	}
 	public void dodaheuristic(MazeNode n){
