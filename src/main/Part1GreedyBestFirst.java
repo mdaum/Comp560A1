@@ -47,12 +47,8 @@ public class Part1GreedyBestFirst extends Searcher{
 	public MazeNode dequeue(){
 		frontier.get(0).infrontier=false;
 		frontier.get(0).visited=true;
-<<<<<<< HEAD
 		numNodesExpanded++; //ADDED BY TYLER
-		//solution.get(frontier.get(0).row)[frontier.get(0).column]='C';
-=======
 		solution.get(frontier.get(0).row)[frontier.get(0).column]='C';// this is just for debugging purposes. C is for EXPLORED/VISITED/CHECKED/WHATEVER
->>>>>>> branch 'master' of https://github.com/FredLandis/Comp560A1.git
 		return frontier.remove(0);
 	}
 	public void dodaheuristic(MazeNode n){

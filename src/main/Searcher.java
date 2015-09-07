@@ -6,7 +6,6 @@ public abstract class Searcher {
 	ArrayList<MazeNode> frontier = new ArrayList<MazeNode>();
 	ArrayList<char[]> solution;
 	MazeNode[][] nodes;
-	int numNodesExpanded; // number of nodes expanded in search
 	int startX;
 	int startY;
 	int goalX;
@@ -18,12 +17,9 @@ public abstract class Searcher {
 		this.startY=startY;
 		frontier.add(nodes[startX][startY]);
 		frontier.get(0).infrontier=true;
-<<<<<<< HEAD
 		numNodesExpanded = 1; //set to 1 since the start node is by default expanded
-=======
 		this.goalX=goalX;
 		this.goalY=goalY;
->>>>>>> branch 'master' of https://github.com/FredLandis/Comp560A1.git
 	}
 	public abstract ArrayList<char[]> search();
 	public ArrayList<char[]> deepclone(ArrayList<char[]> original){
