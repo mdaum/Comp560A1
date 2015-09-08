@@ -10,6 +10,7 @@ public abstract class Searcher {
 	int startY;
 	int goalX;
 	int goalY;
+	int numNodesExpanded;
 	public Searcher(ArrayList<char[]> CharMaze, MazeNode[][] Nodes,int startX, int startY,int goalX,int goalY){
 		solution= deepclone(CharMaze);
 		nodes=Nodes;

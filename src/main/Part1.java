@@ -24,12 +24,12 @@ public class Part1 {
 		shoe.search();
 		printCharMaze(shoe.solution);
 		System.out.println();*/
-		Part1GreedyBestFirst mrKrabs=new Part1GreedyBestFirst(smallCharMaze, nodes, startX, startY, goalX, goalY);
+		/*Part1GreedyBestFirst mrKrabs=new Part1GreedyBestFirst(smallCharMaze, nodes, startX, startY, goalX, goalY);
 		mrKrabs.search();
-		printCharMaze(mrKrabs.solution);
+		printCharMaze(mrKrabs.solution);*/
 		
 		//Tyler Test Code starts here
-		smallCharMaze = createCharMaze("mazeForGreedy.txt");
+		smallCharMaze = createCharMaze("bigMaze.txt");
 		nodes = new MazeNode[smallCharMaze.size()][smallCharMaze.get(0).length];
 		createMazeGraph(smallCharMaze,nodes);
 		Part1AStar deathStar = new Part1AStar(smallCharMaze,nodes, startX, startY, goalX, goalY);
@@ -86,6 +86,17 @@ public class Part1 {
 				}
 			}
 		}
+	}
+	public static ArrayList<MazeNode> createCheeseList(ArrayList<char[]> charMaze, MazeNode[][] nodes){
+		ArrayList<MazeNode> cheeseList = new ArrayList<MazeNode>();
+		for(int i=0;i<charMaze.size();i++){
+			for(int j=0;j<charMaze.get(i).length;j++){
+				if(charMaze.get(i)[j]=='.'){
+					cheeseList.add(nodes[i][j]);
+				}
+			}
+		}
+		return cheeseList;
 	}
 	//the way we're doing things doesn't use special data structures to store the explored set
 	//or even the frontier. Instead we just flag the nodes themselves with booleans.

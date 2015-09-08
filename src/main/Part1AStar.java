@@ -21,8 +21,8 @@ public class Part1AStar extends Searcher
 		MazeNode node = frontier.get(0);
 		node.heuristicvalue = (Math.abs(node.column - goalX) + Math.abs(node.row - goalY));
 		node.costOfBestPathHere = 0;
-		frontier.remove(0);
-		frontier.add(node);
+		//frontier.remove(0);
+		//frontier.add(node);
 	}
 	
 	public ArrayList<char[]> search()
