@@ -17,6 +17,7 @@ public abstract class Searcher {
 		this.startY=startY;
 		frontier.add(nodes[startX][startY]);
 		frontier.get(0).infrontier=true;
+		numNodesExpanded = 1; //set to 1 since the start node is by default expanded
 		this.goalX=goalX;
 		this.goalY=goalY;
 	}

@@ -24,6 +24,7 @@ public class Part1GreedyBestFirst extends Searcher{
 					n.predecessor=current;
 					if(n.goal){
 						System.out.println("I FOUND IT");
+						System.out.println("Number of nodes expanded is " + numNodesExpanded);
 						MazeNode curr=n.predecessor;
 						while(curr.predecessor!=null){
 							solution.get(curr.row)[curr.column]='.';
@@ -50,6 +51,7 @@ public class Part1GreedyBestFirst extends Searcher{
 	public MazeNode dequeue(){
 		frontier.get(0).infrontier=false;
 		frontier.get(0).visited=true;
+		numNodesExpanded++; //ADDED BY TYLER
 		solution.get(frontier.get(0).row)[frontier.get(0).column]='C';// this is just for debugging purposes. C is for EXPLORED/VISITED/CHECKED/WHATEVER
 		return frontier.remove(0);
 	}

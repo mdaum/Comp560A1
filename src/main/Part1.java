@@ -10,7 +10,7 @@ public class Part1 {
 	static int goalX;
 	static int goalY;
 	public static void main(String args[]){
-		ArrayList<char[]> smallCharMaze = createCharMaze("smallMaze.txt");
+		ArrayList<char[]> smallCharMaze = createCharMaze("mazeForGreedy.txt");
 		printCharMaze(smallCharMaze);
 		MazeNode[][] nodes = new MazeNode[smallCharMaze.size()][smallCharMaze.get(0).length];
 		createMazeGraph(smallCharMaze,nodes);
@@ -22,11 +22,18 @@ public class Part1 {
 		System.out.println();
 		Part1DFS shoe =new Part1DFS(smallCharMaze,nodes,startX,startY,goalX,goalY);
 		shoe.search();
-		printCharMaze(shoe.solution);*/
-		System.out.println();
+		printCharMaze(shoe.solution);
+		System.out.println();*/
 		Part1GreedyBestFirst mrKrabs=new Part1GreedyBestFirst(smallCharMaze, nodes, startX, startY, goalX, goalY);
 		mrKrabs.search();
 		printCharMaze(mrKrabs.solution);
+		
+		//Tyler Test Code starts here
+		smallCharMaze = createCharMaze("mazeForGreedy.txt");
+		nodes = new MazeNode[smallCharMaze.size()][smallCharMaze.get(0).length];
+		createMazeGraph(smallCharMaze,nodes);
+		Part1AStar deathStar = new Part1AStar(smallCharMaze,nodes, startX, startY, goalX, goalY);
+		printCharMaze(deathStar.search());
 		
 	}
 	//this returns the ArrayList of char[]s that make up a representation of the .txt files
