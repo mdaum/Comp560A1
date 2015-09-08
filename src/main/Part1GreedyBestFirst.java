@@ -13,6 +13,10 @@ public class Part1GreedyBestFirst extends Searcher{
 		boolean done=false;
 		while(!done){
 			Part1.printCharMaze(solution); // this is just for debugging purposes
+			if(!priorityQueueInOrder()){ //this is just for debugging purposes
+				System.out.println("GOODBYE WORLD");
+				System.exit(0);
+			}
 			if(frontier.isEmpty())return null;
 			MazeNode current=dequeue();
 			for (MazeNode n : current.getAdjacentNodes()) {
@@ -50,8 +54,16 @@ public class Part1GreedyBestFirst extends Searcher{
 		return frontier.remove(0);
 	}
 	public void dodaheuristic(MazeNode n){
-		int Mdist=Math.abs(goalX-n.column)+Math.abs(goalY-n.row);
+		int Mdist=Math.abs(goalY-n.column)+Math.abs(goalX-n.row);
+		System.out.println(n.toString()+" is "+Mdist+" away");// this is just for debugging purposes
 		n.heuristicvalue=Mdist;
+	}
+	public boolean priorityQueueInOrder(){
+		for(int i=0;i<frontier.size()-1;i++){
+			if(frontier.get(i).heuristicvalue>frontier.get(i+1).heuristicvalue)
+				return false;
+		}
+		return true;
 	}
 	public int binsearch(int h,ArrayList<MazeNode> f){
 		int hi=f.size()-1;
@@ -63,16 +75,23 @@ public class Part1GreedyBestFirst extends Searcher{
 				return mid;
 			}
 			if(h<f.get(mid).heuristicvalue){
-				hi=mid;
+				hi=mid-1;
 			}
 			else{
-				lo=mid;
+				lo=mid+1;
 			}
 		}
-		if(f.get(mid).heuristicvalue<=h){
-		return mid+1;	
+		/*if(f.get(mid).heuristicvalue<=h){
+			return mid+1;	
 		}
-		else return mid;	
+		else return mid;*/
+		if(f.get(lo).heuristicvalue<h){ //this is hacky and icky but it works
+			if(f.get(hi).heuristicvalue>=h)
+				return hi;
+			else return hi+1;
+		}
+		else
+			return lo;
 	}
 
 }
