@@ -12,24 +12,28 @@ public class Part1GreedyBestFirst extends Searcher{
 	public ArrayList<char[]> search() {
 		boolean done=false;
 		while(!done){
-			Part1.printCharMaze(solution); // this is just for debugging purposes
+			/*Part1.printCharMaze(solution); // this is just for debugging purposes
 			if(!priorityQueueInOrder()){ //this is just for debugging purposes
 				System.out.println("GOODBYE WORLD");
 				System.exit(0);
-			}
+			}*/ //will just comment out then
 			if(frontier.isEmpty())return null;
 			MazeNode current=dequeue();
 			for (MazeNode n : current.getAdjacentNodes()) {
 				if(!n.visited&&!n.infrontier){
 					n.predecessor=current;
 					if(n.goal){
-						System.out.println("I FOUND IT");
-						System.out.println("Number of nodes expanded is " + numNodesExpanded);
+						//System.out.println("I FOUND IT");
+						int cost=1;
+						
 						MazeNode curr=n.predecessor;
 						while(curr.predecessor!=null){
 							solution.get(curr.row)[curr.column]='.';
 							curr=curr.predecessor;
+							cost++;
 						}
+						System.out.println("Cost for this path is "+cost);
+						System.out.println("Number of nodes expanded is " + numNodesExpanded);
 						return solution;
 					}
 					enqueue(n);
@@ -40,7 +44,7 @@ public class Part1GreedyBestFirst extends Searcher{
 		return null;
 	}
 	public void enqueue(MazeNode N){
-		solution.get(N.row)[N.column]='F';// this is just for debugging purposes. F is for FRONTIER
+		//solution.get(N.row)[N.column]='F';// this is just for debugging purposes. F is for FRONTIER
 		dodaheuristic(N);
 		if(frontier.size()==0){
 			frontier.add(N);
@@ -52,12 +56,12 @@ public class Part1GreedyBestFirst extends Searcher{
 		frontier.get(0).infrontier=false;
 		frontier.get(0).visited=true;
 		numNodesExpanded++; //ADDED BY TYLER
-		solution.get(frontier.get(0).row)[frontier.get(0).column]='C';// this is just for debugging purposes. C is for EXPLORED/VISITED/CHECKED/WHATEVER
+		//solution.get(frontier.get(0).row)[frontier.get(0).column]='C';// this is just for debugging purposes. C is for EXPLORED/VISITED/CHECKED/WHATEVER
 		return frontier.remove(0);
 	}
 	public void dodaheuristic(MazeNode n){
 		int Mdist=Math.abs(goalY-n.column)+Math.abs(goalX-n.row);
-		System.out.println(n.toString()+" is "+Mdist+" away");// this is just for debugging purposes
+		//System.out.println(n.toString()+" is "+Mdist+" away");// this is just for debugging purposes
 		n.heuristicvalue=Mdist;
 	}
 	public boolean priorityQueueInOrder(){

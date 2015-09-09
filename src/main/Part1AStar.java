@@ -110,7 +110,7 @@ public class Part1AStar extends Searcher
 	 */
 	public void computeSolution(MazeNode goal)
 	{
-		System.out.println("Cost to get here is " + goal.costOfBestPathHere);
+		System.out.println("Cost to get here is " + goal.costOfBestPathHere); //commenting this out since we don't track this for greedy and we are apparently checking based on nodes expanded
 		System.out.println("Nodes expanded is " + numNodesExpanded); 
 		while(goal.predecessor.predecessor != null)
 		{

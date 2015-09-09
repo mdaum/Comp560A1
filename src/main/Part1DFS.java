@@ -21,12 +21,16 @@ public class Part1DFS extends Searcher{
 				if(!n.visited&&!n.infrontier){
 					n.predecessor=current;
 					if(n.goal){
-						System.out.println("I FOUND IT");
+						//System.out.println("I FOUND IT");
+						int cost=1;
 						MazeNode curr=n.predecessor;
 						while(curr.predecessor!=null){
 							solution.get(curr.row)[curr.column]='.';
 							curr=curr.predecessor;
+							cost++;
 						}
+						System.out.println("Cost for this path is "+cost);
+						System.out.println("Number of nodes expanded is " + numNodesExpanded);
 						return solution;
 					}
 					push(n);
@@ -42,6 +46,7 @@ public class Part1DFS extends Searcher{
 		//solution.get(N.row)[N.column]='F';
 	}
 	public MazeNode pop(){
+		numNodesExpanded++; //ADDED BY TYLER
 		frontier.get(frontier.size()-1).infrontier=false;
 		frontier.get(frontier.size()-1).visited=true;
 		//solution.get(frontier.get(frontier.size()-1).row)[frontier.get(frontier.size()-1).column]='C';
