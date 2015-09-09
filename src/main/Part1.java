@@ -24,12 +24,12 @@ public class Part1 {
 		shoe.search();
 		printCharMaze(shoe.solution);
 		System.out.println();*/
-		/*Part1GreedyBestFirst mrKrabs=new Part1GreedyBestFirst(smallCharMaze, nodes, startX, startY, goalX, goalY);
+		Part1GreedyBestFirst mrKrabs=new Part1GreedyBestFirst(smallCharMaze, nodes, startX, startY, goalX, goalY);
 		mrKrabs.search();
-		printCharMaze(mrKrabs.solution);*/
+		printCharMaze(mrKrabs.solution);
 		
 		//Tyler Test Code starts here
-		smallCharMaze = createCharMaze("bigMaze.txt");
+		smallCharMaze = createCharMaze("mazeForGreedy.txt");
 		nodes = new MazeNode[smallCharMaze.size()][smallCharMaze.get(0).length];
 		createMazeGraph(smallCharMaze,nodes);
 		Part1AStar deathStar = new Part1AStar(smallCharMaze,nodes, startX, startY, goalX, goalY);
