@@ -98,7 +98,7 @@ public class Part1AStar extends Searcher
 	public void enqueNode(MazeNode parent, MazeNode child)
 	{
 		child.costOfBestPathHere = parent.costOfBestPathHere + 1;
-		child.heuristicvalue = (Math.abs(child.column - goalX) + Math.abs(child.row - goalY));
+		child.heuristicvalue = (Math.abs(child.column - goalColumn) + Math.abs(child.row - goalRow));
 		child.predecessor = parent;
 		frontier.add(child);
 	}

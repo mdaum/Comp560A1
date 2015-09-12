@@ -60,7 +60,7 @@ public class Part1GreedyBestFirst extends Searcher{
 		return frontier.remove(0);
 	}
 	public void dodaheuristic(MazeNode n){
-		int Mdist=Math.abs(goalY-n.column)+Math.abs(goalX-n.row);
+		int Mdist=Math.abs(goalRow-n.column)+Math.abs(goalColumn-n.row);
 		//System.out.println(n.toString()+" is "+Mdist+" away");// this is just for debugging purposes
 		n.heuristicvalue=Mdist;
 	}

@@ -5,45 +5,45 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Part1 {
-	static int startX;
-	static int startY;
-	static int goalX;
-	static int goalY;
+	static int startRow;
+	static int startColumn;
+	static int goalRow;
+	static int goalColumn;
 	public static void main(String args[]){
 		System.out.println("Doing Part "+Integer.parseInt(args[0]));
 		if(Integer.parseInt(args[0])==1){//chose to do part 1...will do all searches
-		System.out.println("constructing graph based on args[1]");
-		ArrayList<char[]> smallCharMaze = createCharMaze(args[1]);
-		printCharMaze(smallCharMaze);
-		MazeNode[][] nodes = new MazeNode[smallCharMaze.size()][smallCharMaze.get(0).length];
-		createMazeGraph(smallCharMaze,nodes);
-		System.out.println("Graph construction complete");
-		System.out.println("BFS");
-		Part1BFS goo = new Part1BFS(smallCharMaze, nodes, startX, startY,goalX,goalY);
-		goo.search();
-		System.out.println();
-		printCharMaze(goo.solution);
-		reset(nodes);
-		System.out.println();
-		System.out.println("DFS");
-		Part1DFS shoe =new Part1DFS(smallCharMaze,nodes,startX,startY,goalX,goalY);
-		shoe.search();
-		printCharMaze(shoe.solution);
-		reset(nodes);
-		System.out.println();
-		System.out.println("Greedy Best First");
-		Part1GreedyBestFirst mrKrabs=new Part1GreedyBestFirst(smallCharMaze, nodes, startX, startY, goalX, goalY);
-		mrKrabs.search();
-		printCharMaze(mrKrabs.solution);
-		reset(nodes);
-		//Tyler Test Code starts here, Max:Tyler, I think since you use the Searcher.solution it is a deep copy of the txt file, so just reset nodes no need for new graph construction
-		/*smallCharMaze = createCharMaze("mazeForGreedy.txt");
-		nodes = new MazeNode[smallCharMaze.size()][smallCharMaze.get(0).length];
-		createMazeGraph(smallCharMaze,nodes);*/ //commenting out for now, just reseting nodes instead since we have deep copy
-		System.out.println();
-		System.out.println("A*");
-		Part1AStar deathStar = new Part1AStar(smallCharMaze,nodes, startX, startY, goalX, goalY);
-		printCharMaze(deathStar.search());
+			System.out.println("constructing graph based on args[1]");
+			ArrayList<char[]> smallCharMaze = createCharMaze(args[1]);
+			printCharMaze(smallCharMaze);
+			MazeNode[][] nodes = new MazeNode[smallCharMaze.size()][smallCharMaze.get(0).length];
+			createMazeGraph(smallCharMaze,nodes);
+			System.out.println("Graph construction complete");
+			System.out.println("BFS");
+			Part1BFS goo = new Part1BFS(smallCharMaze, nodes, startRow, startColumn,goalRow,goalColumn);
+			goo.search();
+			System.out.println();
+			printCharMaze(goo.solution);
+			reset(nodes);
+			System.out.println();
+			System.out.println("DFS");
+			Part1DFS shoe =new Part1DFS(smallCharMaze,nodes,startRow,startColumn,goalRow,goalColumn);
+			shoe.search();
+			printCharMaze(shoe.solution);
+			reset(nodes);
+			System.out.println();
+			System.out.println("Greedy Best First");
+			Part1GreedyBestFirst mrKrabs=new Part1GreedyBestFirst(smallCharMaze, nodes, startRow, startColumn, goalRow, goalColumn);
+			mrKrabs.search();
+			printCharMaze(mrKrabs.solution);
+			reset(nodes);
+			//Tyler Test Code starts here, Max:Tyler, I think since you use the Searcher.solution it is a deep copy of the txt file, so just reset nodes no need for new graph construction
+			/*smallCharMaze = createCharMaze("mazeForGreedy.txt");
+			nodes = new MazeNode[smallCharMaze.size()][smallCharMaze.get(0).length];
+			createMazeGraph(smallCharMaze,nodes);*/ //commenting out for now, just reseting nodes instead since we have deep copy
+			System.out.println();
+			System.out.println("A*");
+			Part1AStar deathStar = new Part1AStar(smallCharMaze,nodes, startRow, startColumn, goalRow, goalColumn);
+			printCharMaze(deathStar.search());
 		}
 		else if(Integer.parseInt(args[0])==2){//doing part 2
 			System.out.println("constructing graph in which A* wins");
@@ -54,7 +54,7 @@ public class Part1 {
 			System.out.println("Graph construction complete");
 			System.out.println();
 			System.out.println("Greedy Best First");
-			Part1GreedyBestFirst mrKrabs=new Part1GreedyBestFirst(smallCharMaze, nodes, startX, startY, goalX, goalY);
+			Part1GreedyBestFirst mrKrabs=new Part1GreedyBestFirst(smallCharMaze, nodes, startRow, startColumn, goalRow, goalColumn);
 			mrKrabs.search();
 			printCharMaze(mrKrabs.solution);
 			reset(nodes);
@@ -64,7 +64,7 @@ public class Part1 {
 			createMazeGraph(smallCharMaze,nodes);*/ //commenting out for now, just reseting nodes instead since we have deep copy
 			System.out.println();
 			System.out.println("A*");
-			Part1AStar deathStar = new Part1AStar(smallCharMaze,nodes, startX, startY, goalX, goalY);
+			Part1AStar deathStar = new Part1AStar(smallCharMaze,nodes, startRow, startColumn, goalRow, goalColumn);
 			printCharMaze(deathStar.search());
 			System.out.println("A* wins... now constructing graph where Greedy wins");
 			try {
@@ -81,7 +81,7 @@ public class Part1 {
 			System.out.println("Graph construction complete");
 			System.out.println();
 			System.out.println("Greedy Best First");
-			mrKrabs=new Part1GreedyBestFirst(smallCharMaze, nodes, startX, startY, goalX, goalY);
+			mrKrabs=new Part1GreedyBestFirst(smallCharMaze, nodes, startRow, startColumn, goalRow, goalColumn);
 			mrKrabs.search();
 			printCharMaze(mrKrabs.solution);
 			reset(nodes);
@@ -91,10 +91,22 @@ public class Part1 {
 			createMazeGraph(smallCharMaze,nodes);*/ //commenting out for now, just reseting nodes instead since we have deep copy
 			System.out.println();
 			System.out.println("A*");
-			deathStar = new Part1AStar(smallCharMaze,nodes, startX, startY, goalX, goalY);
+			deathStar = new Part1AStar(smallCharMaze,nodes, startRow, startColumn, goalRow, goalColumn);
 			printCharMaze(deathStar.search());
 		}
-		
+		else if(args[0].equals("3")){
+			System.out.println("constructing graph based on args[1]");
+			ArrayList<char[]> smallCharMaze = createCharMaze(args[1]);
+			printCharMaze(smallCharMaze);
+			MazeNode[][] nodes = new MazeNode[smallCharMaze.size()][smallCharMaze.get(0).length];
+			createMazeGraph(smallCharMaze,nodes);
+			System.out.println("Graph construction complete");
+			System.out.println("Cheese A*");
+			ArrayList<MazeNode> cheeseList = createCheeseList(smallCharMaze,nodes);
+			Part3CheeseSearch2 sweetChedda = new Part3CheeseSearch2(smallCharMaze,nodes,startRow,startColumn,cheeseList);
+			sweetChedda.search();
+			printCharMaze(sweetChedda.solution);
+		}
 	}
 	//this returns the ArrayList of char[]s that make up a representation of the .txt files
 	public static ArrayList<char[]> createCharMaze(String filePath){
@@ -127,12 +139,12 @@ public class Part1 {
 			for(int j=0;j<charMaze.get(i).length;j++){
 				if(charMaze.get(i)[j]!='%'){
 					if(charMaze.get(i)[j]=='S'){
-						startX=i;
-						startY=j;
+						startRow=i;
+						startColumn=j;
 					}
 					if(charMaze.get(i)[j]=='G'){
-						goalX=i;
-						goalY=j;
+						goalRow=i;
+						goalColumn=j;
 					}
 					nodes[i][j] = new MazeNode(i,j,charMaze.get(i)[j]=='G');
 					if(i>0 && charMaze.get(i-1)[j]!='%'){//we can check for edges with tiles above us
