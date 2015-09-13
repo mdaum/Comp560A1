@@ -20,14 +20,24 @@ public class Part3CheeseSearch2 extends Searcher{
 		MazeNode node = null;
 		while(!cheeses.isEmpty()){
 			node = dequeFrontierNode();
-			if(cheeses.contains(node)){//we can knock this cheese off the list
-				cheeses.remove(node);
-				//also we have to label this cheese on the text array as being the nth one found
-				solution.get(node.row)[node.column]=(char)lastCheeseFound;//ASCII VALUES AHOY 
-				lastCheeseFound=lastCheeseFound<57||lastCheeseFound>=65?lastCheeseFound+1:65;
-				//wipe this cheese from every other cheese's memorization of inter-cheese distances
-			}
 			if(node.row==goalRow && node.column==goalColumn){//we have hit our temporary goal (a specific cheese)
+				//knock off every cheese that we walked over
+				MazeNode nodeOnPath = node;
+				ArrayList<MazeNode> cheeseList = new ArrayList<MazeNode>();
+				while(nodeOnPath!=null){
+					if(cheeses.contains(nodeOnPath)){
+						cheeseList.add(nodeOnPath);
+						cheeses.remove(nodeOnPath);
+					}
+					nodeOnPath=nodeOnPath.predecessor;
+				}
+				for(int i=cheeseList.size()-1;i>=0;i--){
+					solution.get(cheeseList.get(i).row)[cheeseList.get(i).column]=(char)lastCheeseFound;//ASCII VALUES AHOY 
+					lastCheeseFound=lastCheeseFound<57||lastCheeseFound>=65?lastCheeseFound+1:65;
+				}
+				cheeses.remove(node);
+				//don't allow path to get pulled out of control
+				node.predecessor=null;
 				//we have to wipe every other MazeNode but this one clean as we "restart"
 				System.out.println("Found goal at " + goalColumn + " " + goalRow);
 				System.out.println("Copied node at " + node.column + "   " + node.predecessor.row);
@@ -55,6 +65,7 @@ public class Part3CheeseSearch2 extends Searcher{
 				if(chump!=node && chump!=null){
 					chump.visited=false;
 					chump.infrontier=false;
+					chump.predecessor=null;
 					frontier.clear();//most important line
 				}
 			}
@@ -85,7 +96,7 @@ public class Part3CheeseSearch2 extends Searcher{
 	public void enqueNode(MazeNode parent, MazeNode child)
 	{
 		child.costOfBestPathHere = parent.costOfBestPathHere + 1;
-		System.out.println(child.costOfBestPathHere);
+		System.out.println(child.costOfBestPathHere+" "+child.row+","+child.column);
 		child.heuristicvalue = (Math.abs(child.column - goalColumn) + Math.abs(child.row - goalRow));
 		child.predecessor = parent;
 		frontier.add(child);

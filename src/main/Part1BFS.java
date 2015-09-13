@@ -37,7 +37,7 @@ public class Part1BFS extends Searcher{
 			}
 			
 		}
-		return null;
+		return null; //actually this never gets reached, but java will complain otherwise
 	}
 	public void enqueue(MazeNode N){
 		frontier.add(N);

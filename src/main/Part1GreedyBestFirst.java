@@ -64,7 +64,7 @@ public class Part1GreedyBestFirst extends Searcher{
 		//System.out.println(n.toString()+" is "+Mdist+" away");// this is just for debugging purposes
 		n.heuristicvalue=Mdist;
 	}
-	public boolean priorityQueueInOrder(){
+	public boolean priorityQueueInOrder(){ //this is for debugging, not used in search execution
 		for(int i=0;i<frontier.size()-1;i++){
 			if(frontier.get(i).heuristicvalue>frontier.get(i+1).heuristicvalue)
 				return false;
