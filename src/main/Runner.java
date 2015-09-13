@@ -44,14 +44,6 @@ public class Runner {
 			System.out.println("A*");
 			Part1AStar deathStar = new Part1AStar(smallCharMaze,nodes, startRow, startColumn, goalRow, goalColumn);
 			printCharMaze(deathStar.search());
-			/*try 
-			{
-				animatePart1(deathStar.solution);
-			} 
-			catch (InterruptedException e) 
-			{
-				e.printStackTrace();
-			}*/
 		}
 		else if(Integer.parseInt(args[0])==2){//doing part 2
 			System.out.println("constructing graph in which A* wins");
@@ -74,11 +66,10 @@ public class Runner {
 			System.out.println("A*");
 			Part1AStar deathStar = new Part1AStar(smallCharMaze,nodes, startRow, startColumn, goalRow, goalColumn);
 			printCharMaze(deathStar.search());
-			System.out.println("A* wins.");
-			System.out.println("Now constructing graph where Greedy wins");
+			System.out.println("A* wins... now constructing graph where Greedy wins");
 			try {
 				System.out.println("sleeping");
-				Thread.sleep(100);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -115,6 +106,7 @@ public class Runner {
 			Part3CheeseSearch2 sweetChedda = new Part3CheeseSearch2(smallCharMaze,nodes,startRow,startColumn,cheeseList);
 			sweetChedda.search();
 			printCharMaze(sweetChedda.solution);
+			animatePart3(sweetChedda.arrayOfGoalPaths,smallCharMaze);
 		}
 	}
 	//this returns the ArrayList of char[]s that make up a representation of the .txt files
@@ -195,55 +187,59 @@ public class Runner {
 		}
 	}
 	
-	/*public static void animatePart1(ArrayList<char[]> solution) throws InterruptedException
+	public static void animatePart3(ArrayList<MazeNode> solutionNodes, ArrayList<char[]> charMaze)
 	{
-		int xPosition = startColumn;
-		int yPosition = startRow;
-		int rowWidth = solution.get(yPosition).length;
-		int columnHeight = solution.size();
-		solution.get(yPosition)[xPosition] = '9';
-		boolean atGoal = false;
-		printCharMaze(solution);
-		Thread.sleep(1000);
-		while(!atGoal)
+		for(MazeNode node : solutionNodes)
 		{
-			atGoal = true;
-			if(((xPosition + 1) < rowWidth) && (solution.get(yPosition)[xPosition+1] == '.'))
+			while(node != null)
 			{
-				solution.get(yPosition)[xPosition] = '.';
-				xPosition++;
-				solution.get(yPosition)[xPosition] = '9';
-				atGoal = false;
-				printCharMaze(solution);
+				String unicode_char;
+				if(node.successor != null && node.successor.column == node.column+1)
+				{
+					unicode_char = "\u15E7";
+				}
+				else if(node.successor != null && node.successor.column == node.column-1)
+				{
+					unicode_char = "\u15E4";
+				}
+				else if(node.successor != null && node.successor.row == node.row+1)
+				{
+					unicode_char = "\u15E3";
+				}
+				else
+				{
+					unicode_char = "U";
+				}
+				printCharMazeExceptSpecialCharacterOn(node.row,node.column, unicode_char,charMaze);
+				charMaze.get(node.row)[node.column] = ' ';
+				node = node.successor;
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			else if(((xPosition - 1) >= 0) && (solution.get(yPosition)[xPosition-1] == '.'))
-			{
-				solution.get(yPosition)[xPosition] = '.';
-				xPosition--;
-				solution.get(yPosition)[xPosition] = '9';
-				atGoal = false;
-				printCharMaze(solution);
-			}
-			else if((((yPosition-1) >= 0)) && (solution.get(yPosition-1)[xPosition] == '.'))
-			{
-				solution.get(yPosition)[xPosition] = '.';
-				yPosition--;
-				solution.get(yPosition)[xPosition] = '9';
-				atGoal = false;
-				printCharMaze(solution);
-			}
-			else if((((yPosition+1) < columnHeight)) && (solution.get(yPosition+1)[xPosition] == '.'))
-			{
-				solution.get(yPosition)[xPosition] = '.';
-				yPosition++;
-				solution.get(yPosition)[xPosition] = '9';
-				atGoal = false;
-				printCharMaze(solution);
-			}
-			Thread.sleep(1000);
 		}
-		System.out.println("MADE IT :-)");
-		
-	}*/
+	}
+	
+	public static void printCharMazeExceptSpecialCharacterOn(int row, int column, String unicode_char, ArrayList<char[]> charMaze)
+	{
+		for(int y = 0;y < charMaze.size();y++)
+		{
+			for(int x = 0;x < charMaze.get(0).length;x++)
+			{
+				if((y == row) && (x == column))
+				{
+					System.out.print(unicode_char);
+				}
+				else
+				{
+					System.out.print(charMaze.get(y)[x]);
+				}
+			}
+			System.out.println();
+		}
+	}
 
 }
