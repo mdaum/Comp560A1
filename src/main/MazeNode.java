@@ -10,7 +10,7 @@ public class MazeNode {
 	boolean infrontier=false;
 	boolean goal=false;
 	//predecessor is the node that expanded it: defines the solution path for backtracking
-	MazeNode north,south,east,west,predecessor;
+	MazeNode north,south,east,west,predecessor, successor;
 	public MazeNode(int Row, int Column, boolean Goal){
 		row=Row;
 		column=Column;
@@ -28,6 +28,7 @@ public class MazeNode {
 			adjacentNodes.add(west);
 		return adjacentNodes;
 	}
+	
 	public String toString(){
 		return row+" "+column+" visited="+visited+" infrontier="+infrontier+" heuristic="+heuristicvalue;
 	}

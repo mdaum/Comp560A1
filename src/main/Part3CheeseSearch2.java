@@ -6,6 +6,7 @@ public class Part3CheeseSearch2 extends Searcher{
 	ArrayList<MazeNode> cheeses = new ArrayList<MazeNode>();
 	int lastCheeseFound=49;//ascii values are afoot. 49 means 1
 	int[][] interCheeseDistances;
+	ArrayList<MazeNode> arrayOfGoalPaths;
 	public Part3CheeseSearch2(ArrayList<char[]> CharMaze, MazeNode[][] Nodes,int startY, int startX, ArrayList<MazeNode> CheeseList){
 		super(CharMaze,Nodes,startY,startX,-1,-1);//we will set the goal soon. It will be a specific cheese.
 		MazeNode node = frontier.get(0);
@@ -13,6 +14,7 @@ public class Part3CheeseSearch2 extends Searcher{
 		cheeses = CheeseList;
 		interCheeseDistances = new int[cheeses.size()][cheeses.size()];
 		pickCheeseGoal();//here is where we set the goal
+		arrayOfGoalPaths = new ArrayList<MazeNode>();
 	}
 	public ArrayList<char[]> search(){
 		MazeNode node = null;
@@ -27,7 +29,11 @@ public class Part3CheeseSearch2 extends Searcher{
 			}
 			if(node.row==goalRow && node.column==goalColumn){//we have hit our temporary goal (a specific cheese)
 				//we have to wipe every other MazeNode but this one clean as we "restart"
+				System.out.println("Found goal at " + goalColumn + " " + goalRow);
+				System.out.println("Copied node at " + node.column + "   " + node.predecessor.row);
+				arrayOfGoalPaths.add(deepCopyJustPredecessors(node,new MazeNode(node.row,node.column,node.goal)));
 				wipeNodesExceptFor(node);
+				node.predecessor = null;
 				//pick the next cheese goal
 				startColumn=node.column;
 				startRow=node.row;
@@ -49,7 +55,6 @@ public class Part3CheeseSearch2 extends Searcher{
 				if(chump!=node && chump!=null){
 					chump.visited=false;
 					chump.infrontier=false;
-					chump.heuristicvalue=Integer.MAX_VALUE;//probably unnecessary
 					frontier.clear();//most important line
 				}
 			}
@@ -104,5 +109,19 @@ public class Part3CheeseSearch2 extends Searcher{
 		chosenOne.visited=true;
 		chosenOne.infrontier=false;
 		return chosenOne;
+	}
+	
+	public MazeNode deepCopyJustPredecessors(MazeNode node,MazeNode copyNode)
+	{
+		if(node.predecessor == null)
+		{
+			return copyNode;
+		}
+		MazeNode predecessorCopy = new MazeNode(node.predecessor.row,node.predecessor.column,node.predecessor.goal);
+		copyNode.predecessor = predecessorCopy;
+		predecessorCopy.successor = copyNode;
+		System.out.println("Copied node at " + copyNode.predecessor.column + "   " + copyNode.predecessor.row);
+		return deepCopyJustPredecessors(node.predecessor,copyNode.predecessor);
+		
 	}
 }
