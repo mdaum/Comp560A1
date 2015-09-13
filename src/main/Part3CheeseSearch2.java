@@ -8,6 +8,8 @@ public class Part3CheeseSearch2 extends Searcher{
 	int[][] interCheeseDistances;
 	public Part3CheeseSearch2(ArrayList<char[]> CharMaze, MazeNode[][] Nodes,int startY, int startX, ArrayList<MazeNode> CheeseList){
 		super(CharMaze,Nodes,startY,startX,-1,-1);//we will set the goal soon. It will be a specific cheese.
+		MazeNode node = frontier.get(0);
+		node.costOfBestPathHere = 0;
 		cheeses = CheeseList;
 		interCheeseDistances = new int[cheeses.size()][cheeses.size()];
 		pickCheeseGoal();//here is where we set the goal
@@ -36,7 +38,7 @@ public class Part3CheeseSearch2 extends Searcher{
 				if(!child.infrontier&&!child.visited)
 					enqueNode(node,child);
 		}//if the while loop is done, we have found every cheese
-		System.out.println("Cost to get here is " + nodes[goalRow][goalColumn].costOfBestPathHere); //commenting this out since we don't track this for greedy and we are apparently checking based on nodes expanded
+		System.out.println("Cost to get here is " + nodes[goalRow][goalColumn].costOfBestPathHere); //Hacking a solution for now
 		System.out.println("Nodes expanded is " + numNodesExpanded); 
 		return null;
 	}
@@ -47,7 +49,6 @@ public class Part3CheeseSearch2 extends Searcher{
 				if(chump!=node && chump!=null){
 					chump.visited=false;
 					chump.infrontier=false;
-					chump.costOfBestPathHere=Integer.MAX_VALUE;
 					chump.heuristicvalue=Integer.MAX_VALUE;//probably unnecessary
 					frontier.clear();//most important line
 				}
@@ -79,6 +80,7 @@ public class Part3CheeseSearch2 extends Searcher{
 	public void enqueNode(MazeNode parent, MazeNode child)
 	{
 		child.costOfBestPathHere = parent.costOfBestPathHere + 1;
+		System.out.println(child.costOfBestPathHere);
 		child.heuristicvalue = (Math.abs(child.column - goalColumn) + Math.abs(child.row - goalRow));
 		child.predecessor = parent;
 		frontier.add(child);

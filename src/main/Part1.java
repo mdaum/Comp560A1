@@ -44,6 +44,14 @@ public class Part1 {
 			System.out.println("A*");
 			Part1AStar deathStar = new Part1AStar(smallCharMaze,nodes, startRow, startColumn, goalRow, goalColumn);
 			printCharMaze(deathStar.search());
+			/*try 
+			{
+				animatePart1(deathStar.solution);
+			} 
+			catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+			}*/
 		}
 		else if(Integer.parseInt(args[0])==2){//doing part 2
 			System.out.println("constructing graph in which A* wins");
@@ -184,6 +192,57 @@ public class Part1 {
 				}
 			}
 		}
-	};
+	}
+	
+	/*public static void animatePart1(ArrayList<char[]> solution) throws InterruptedException
+	{
+		int xPosition = startColumn;
+		int yPosition = startRow;
+		int rowWidth = solution.get(yPosition).length;
+		int columnHeight = solution.size();
+		solution.get(yPosition)[xPosition] = '9';
+		boolean atGoal = false;
+		printCharMaze(solution);
+		Thread.sleep(1000);
+		while(!atGoal)
+		{
+			atGoal = true;
+			if(((xPosition + 1) < rowWidth) && (solution.get(yPosition)[xPosition+1] == '.'))
+			{
+				solution.get(yPosition)[xPosition] = '.';
+				xPosition++;
+				solution.get(yPosition)[xPosition] = '9';
+				atGoal = false;
+				printCharMaze(solution);
+			}
+			else if(((xPosition - 1) >= 0) && (solution.get(yPosition)[xPosition-1] == '.'))
+			{
+				solution.get(yPosition)[xPosition] = '.';
+				xPosition--;
+				solution.get(yPosition)[xPosition] = '9';
+				atGoal = false;
+				printCharMaze(solution);
+			}
+			else if((((yPosition-1) >= 0)) && (solution.get(yPosition-1)[xPosition] == '.'))
+			{
+				solution.get(yPosition)[xPosition] = '.';
+				yPosition--;
+				solution.get(yPosition)[xPosition] = '9';
+				atGoal = false;
+				printCharMaze(solution);
+			}
+			else if((((yPosition+1) < columnHeight)) && (solution.get(yPosition+1)[xPosition] == '.'))
+			{
+				solution.get(yPosition)[xPosition] = '.';
+				yPosition++;
+				solution.get(yPosition)[xPosition] = '9';
+				atGoal = false;
+				printCharMaze(solution);
+			}
+			Thread.sleep(1000);
+		}
+		System.out.println("MADE IT :-)");
+		
+	}*/
 
 }
