@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Part1 {
+public class Runner {
 	static int startRow;
 	static int startColumn;
 	static int goalRow;
@@ -74,10 +74,11 @@ public class Part1 {
 			System.out.println("A*");
 			Part1AStar deathStar = new Part1AStar(smallCharMaze,nodes, startRow, startColumn, goalRow, goalColumn);
 			printCharMaze(deathStar.search());
-			System.out.println("A* wins... now constructing graph where Greedy wins");
+			System.out.println("A* wins.");
+			System.out.println("Now constructing graph where Greedy wins");
 			try {
 				System.out.println("sleeping");
-				Thread.sleep(1000);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
