@@ -2,23 +2,24 @@ package main;
 
 import java.util.ArrayList;
 
-public class ManSearch extends Searcher{
+public class Part3CheeseSearch3 extends Searcher{
 	ArrayList<MazeNode> cheeses = new ArrayList<MazeNode>();
 	int lastCheeseFound=49;//ascii values are afoot. 49 means 1
 	int[][] interCheeseDistances;
 	ArrayList<MazeNode> arrayOfGoalPaths;
-	public ManSearch(ArrayList<char[]> CharMaze, MazeNode[][] Nodes,int startY, int startX, ArrayList<MazeNode> CheeseList){
+	public Part3CheeseSearch3(ArrayList<char[]> CharMaze, MazeNode[][] Nodes,int startY, int startX, ArrayList<MazeNode> CheeseList){
 		super(CharMaze,Nodes,startY,startX,-1,-1);//we will set the goal soon. It will be a specific cheese.
 		MazeNode node = frontier.get(0);
 		node.costOfBestPathHere = 0;
 		cheeses = CheeseList;
-		pickCheeseGoal();//here is where we set the goal
+		interCheeseDistances = new int[cheeses.size()][cheeses.size()];
 		arrayOfGoalPaths = new ArrayList<MazeNode>();
 	}
 	public ArrayList<char[]> search(){
 		MazeNode node = null;
 		while(!cheeses.isEmpty()){
 			node = dequeFrontierNode();
+			pickCheeseGoal(node);//here is where we set the goal
 			if(node.row==goalRow && node.column==goalColumn){//we have hit our temporary goal (a specific cheese)
 				//knock off every cheese that we walked over
 				MazeNode nodeOnPath = node;
@@ -38,8 +39,8 @@ public class ManSearch extends Searcher{
 				//don't allow path to get pulled out of control
 				node.predecessor=null;
 				//we have to wipe every other MazeNode but this one clean as we "restart"
-				System.out.println("Found goal at " + goalColumn + " " + goalRow);
-				System.out.println("Copied node at " + node.column + "   " + node.predecessor.row);
+				//System.out.println("Found goal at " + goalColumn + " " + goalRow);
+				//System.out.println("Copied node at " + node.column + "   " + node.predecessor.row);
 				arrayOfGoalPaths.add(deepCopyJustPredecessors(node,new MazeNode(node.row,node.column,node.goal)));
 				wipeNodesExceptFor(node);
 				node.predecessor = null;
@@ -47,7 +48,7 @@ public class ManSearch extends Searcher{
 				startColumn=node.column;
 				startRow=node.row;
 				if(!cheeses.isEmpty())
-					pickCheeseGoal();
+					pickCheeseGoal(node);
 			}
 			for(MazeNode child : node.getAdjacentNodes())
 				if(!child.infrontier&&!child.visited)
@@ -71,26 +72,29 @@ public class ManSearch extends Searcher{
 		}
 	}
 	//currently uses new aspects of MazeNode that I added just for the cheese distances. Ugh.
-	public void pickCheeseGoal(){
-		int greatestDistance=Integer.MIN_VALUE;
-		MazeNode candidateCheese=cheeses.get(0);
-		MazeNode a,b;
-		for(int i=0;i<cheeses.size()-1;i++){
-			a=cheeses.get(i);
-			for(int j=i+1;j<cheeses.size();j++){
-				b=cheeses.get(j);
-				if(greatestDistance<Math.abs(a.row-b.row)+Math.abs(a.column-b.column)){//one of these is our candidateCheese
-					greatestDistance=Math.abs(a.row-b.row)+Math.abs(a.column-b.column);
-					//we have to pick the one closer to start
-					if(Math.abs(a.row-startRow)+Math.abs(a.column-startColumn)<Math.abs(b.row-startRow)+Math.abs(b.column-startColumn))
-						candidateCheese=a;
-					else
-						candidateCheese=b;
-				}
+	public void pickCheeseGoal(MazeNode node){
+		for (int i=0;i<cheeses.size()-1;i++) {
+			MazeNode target= cheeses.get(i);
+			int val=Math.abs(node.column-target.column)+Math.abs(node.row-target.row);
+			for(int j=0;j<i;j++){
+				MazeNode target2=cheeses.get(j);
+				val+=Math.abs(target.column-target2.column)+Math.abs(target.row-target2.row);
 			}
+			for(int k=i+1;k<cheeses.size()-1;k++){
+				MazeNode target3 = cheeses.get(k);
+				val+=Math.abs(target.column-target3.column)+Math.abs(target.row-target3.row);
+			}
+			target.heuristicvalue=val;
 		}
-		goalRow=candidateCheese.row;
-		goalColumn=candidateCheese.column;
+		int min=Integer.MAX_VALUE;
+		MazeNode chosen = null;
+		for (MazeNode cheese : cheeses) {
+			if(min>cheese.heuristicvalue)
+				min=cheese.heuristicvalue;
+				chosen=cheese;
+		}
+		goalRow=chosen.row;
+		goalColumn=chosen.column;
 	}
 	public void enqueNode(MazeNode parent, MazeNode child)
 	{
