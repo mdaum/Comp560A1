@@ -103,10 +103,13 @@ public class Runner {
 			System.out.println("Graph construction complete");
 			System.out.println("Cheese A*");
 			ArrayList<MazeNode> cheeseList = createCheeseList(smallCharMaze,nodes);
-			Part3CheeseSearch2 sweetChedda = new Part3CheeseSearch2(smallCharMaze,nodes,startRow,startColumn,cheeseList);
+			Part3CheeseSearch sweetChedda = new Part3CheeseSearch(smallCharMaze,nodes,startRow,startColumn,cheeseList);
 			sweetChedda.search();
 			printCharMaze(sweetChedda.solution);
-			animatePart3(sweetChedda.arrayOfGoalPaths,smallCharMaze);
+			if(Integer.parseInt(args[2]) == 1)
+			{
+				animatePart3(sweetChedda.arrayOfGoalPaths,smallCharMaze);
+			}
 		}
 	}
 	//this returns the ArrayList of char[]s that make up a representation of the .txt files
@@ -214,7 +217,7 @@ public class Runner {
 				charMaze.get(node.row)[node.column] = ' ';
 				node = node.successor;
 				try {
-					Thread.sleep(100);
+					Thread.sleep(50);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

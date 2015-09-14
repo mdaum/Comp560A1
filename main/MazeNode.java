@@ -8,6 +8,8 @@ public class MazeNode {
 	int heuristicvalue;//will be assigned on the fly in search implementation...
 	boolean visited=false;//true if part of the explored set
 	boolean infrontier=false;
+	boolean savedFrontier = false;
+	boolean savedVisited = false;
 	boolean goal=false;
 	//predecessor is the node that expanded it: defines the solution path for backtracking
 	MazeNode north,south,east,west,predecessor, successor;
